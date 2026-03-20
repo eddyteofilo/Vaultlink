@@ -27,4 +27,14 @@ export const cryptoService = {
     }
     return password;
   },
+  generateHash: (length = 16): string => {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let hash = '';
+    const array = new Uint32Array(length);
+    crypto.getRandomValues(array);
+    for (let i = 0; i < length; i++) {
+      hash += chars[array[i] % chars.length];
+    }
+    return hash;
+  },
 };

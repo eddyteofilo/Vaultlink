@@ -59,8 +59,10 @@ export const EntryModal = ({ projectId, entryId, entry, onClose }: EntryModalPro
     onClose();
   };
 
+  const [genLength, setGenLength] = useState(16);
+
   const generatePassword = () => {
-    setPassword(cryptoService.generatePassword());
+    setPassword(cryptoService.generatePassword(genLength));
     setShowPassword(true);
   };
 
@@ -126,7 +128,19 @@ export const EntryModal = ({ projectId, entryId, entry, onClose }: EntryModalPro
           </div>
 
           <div className="space-y-2">
-            <Label className="text-sm text-muted-foreground">Senha *</Label>
+            <div className="flex items-center justify-between">
+              <Label className="text-sm text-muted-foreground">Senha *</Label>
+              <div className="flex items-center gap-2">
+                <Input
+                  type="number"
+                  min={1}
+                  max={32}
+                  value={genLength}
+                  onChange={(e) => setGenLength(Math.min(32, Math.max(1, parseInt(e.target.value) || 1)))}
+                  className="w-12 h-7 px-1 text-center text-xs bg-muted border-none rounded-md"
+                />
+              </div>
+            </div>
             <div className="flex gap-2">
               <div className="relative flex-1">
                 <Input
