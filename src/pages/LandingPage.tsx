@@ -121,6 +121,26 @@ const LandingPage = () => {
         </motion.div>
       </section>
 
+      {/* Infinite Carousel */}
+      <div className="w-full overflow-hidden bg-background/50 border-y border-border/50 py-10 mb-16">
+        <div className="flex whitespace-nowrap">
+          <motion.div 
+            animate={{ x: [0, -1000] }}
+            transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+            className="flex gap-12 items-center px-6"
+          >
+            {[
+              'Supabase', 'React', 'Vite', 'Tailwind', 'Asaas', 'Framer Motion', 'Lucide', 'TypeScript',
+              'Supabase', 'React', 'Vite', 'Tailwind', 'Asaas', 'Framer Motion', 'Lucide', 'TypeScript'
+            ].map((tech, i) => (
+              <span key={i} className="text-2xl font-display font-bold text-muted-foreground/30 hover:text-primary/50 transition-colors cursor-default select-none uppercase tracking-tighter">
+                {tech}
+              </span>
+            ))}
+          </motion.div>
+        </div>
+      </div>
+
       {/* How it works */}
       <section className="py-16 md:py-20 border-t border-border/50">
         <div className="container max-w-4xl px-4">
