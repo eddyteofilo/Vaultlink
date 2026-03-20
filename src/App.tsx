@@ -39,7 +39,7 @@ const App = () => (
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="/project/:id" element={<ProtectedRoute><ProjectDetail /></ProtectedRoute>} />
-            <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
+            <Route path="/settings" element={<ProtectedRoute allowWithoutSubscription><SettingsPage /></ProtectedRoute>} />
             <Route path="/obrigado" element={<ObrigadoPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

@@ -13,10 +13,17 @@ const SettingsPage = () => {
   const { data: plans } = usePlans();
 
   const handleUpgrade = async () => {
-    toast.info('Redirecionando para o pagamento...');
-    // In a real scenario, this would call an Edge Function to create a session
-    const paymentLink = await asaasService.getPaymentLink(14.99, 'Plano Pro - VaultLink');
-    window.open(paymentLink, '_blank');
+    const toastId = toast.loading('Redirecionando para o pagamento...');
+    try {
+      const paymentLink = await asaasService.getPaymentLink(14.99, 'Plano Pro - VaultLink');
+      toast.success('Pronto!', { id: toastId });
+      setTimeout(() => {
+        window.open(paymentLink, '_blank');
+      }, 500);
+    } catch (e: any) {
+      console.error(e);
+      toast.error(e.message || 'Erro ao gerar pagamento. Tente novamente.', { id: toastId });
+    }
   };
 
   return (

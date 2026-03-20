@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Shield, Zap, Lock, FolderOpen, Copy, ExternalLink, ArrowRight, Check, Key, Hash, Code, Smartphone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { asaasService } from '@/services/asaasService';
+import { toast } from 'sonner';
 
 const container = {
   hidden: { opacity: 0 },
@@ -84,12 +86,26 @@ const LandingPage = () => {
           </motion.p>
 
           <motion.div variants={item} className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link to="/register">
-              <Button size="lg" className="gradient-bg text-primary-foreground border-0 hover:opacity-90 px-8 text-base h-12 glow-shadow">
-                Começar agora — R$14,99/mês
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            </Link>
+            <Button 
+              size="lg" 
+              onClick={async () => {
+                const toastId = toast.loading('Preparando seu cofre...');
+                try {
+                  const url = await asaasService.getPaymentLink(14.99, 'Plano Pro VaultLink');
+                  toast.success('Página de pagamento pronta!', { id: toastId });
+                  setTimeout(() => {
+                    window.open(url, '_blank');
+                  }, 500);
+                } catch (e: any) {
+                  console.error(e);
+                  toast.error(e.message || 'Erro ao abrir checkout.', { id: toastId });
+                }
+              }}
+              className="gradient-bg text-primary-foreground border-0 hover:opacity-90 px-8 text-base h-12 glow-shadow"
+            >
+              Começar agora — R$14,99/mês
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
           </motion.div>
 
           {/* Mock vault preview */}

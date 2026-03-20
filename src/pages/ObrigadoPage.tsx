@@ -1,10 +1,39 @@
-
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle2, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 
 const ObrigadoPage = () => {
+  useEffect(() => {
+    // Conversion tracking IDs from .env
+    const adsId = import.meta.env.VITE_GOOGLE_ADS_ID;
+    const adsLabel = import.meta.env.VITE_GOOGLE_ADS_CONVERSION_LABEL;
+
+    if (adsId && adsLabel) {
+      // Inject gtag.js if not already present
+      if (!window.gtag) {
+        const script = document.createElement('script');
+        script.src = `https://www.googletagmanager.com/gtag/js?id=${adsId}`;
+        script.async = true;
+        document.head.appendChild(script);
+
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { window.dataLayer.push(arguments); }
+        window.gtag = gtag;
+        window.gtag('js', new Date());
+        window.gtag('config', adsId);
+      }
+
+      // Track conversion
+      window.gtag('event', 'conversion', {
+        'send_to': `${adsId}/${adsLabel}`,
+        'transaction_id': ''
+      });
+      console.log('Conversion tracked for Google Ads:', adsId, adsLabel);
+    }
+  }, []);
+
   return (
     <div className="min-h-screen flex items-center justify-center p-6 bg-background">
       <motion.div 

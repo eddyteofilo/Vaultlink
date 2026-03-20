@@ -21,9 +21,37 @@ export const asaasService = {
     return { id: 'sub_placeholder', status: 'active' };
   },
 
-  getPaymentLink: async (value: number, description: string) => {
-    // Example of generating a link for the user to pay
-    console.log('Generating Asaas payment link...');
-    return 'https://asaas.com/p/link_placeholder';
+  getPaymentLink: async (value: number, name: string) => {
+    const returnUrl = `${window.location.origin}/obrigado`;
+    
+    try {
+      // Call the Supabase Edge Function
+      const { data, error } = await supabase.functions.invoke('asaas-payment-checkout', {
+        body: { name, value, returnUrl }
+      });
+
+      if (error) {
+        console.error('Invoke Error:', error);
+        throw new Error('Falha na comunicação com o servidor de pagamento');
+      }
+
+      if (!data || !data.success) {
+        console.error('Asaas Error Detail:', data);
+        const asaasError = data?.data?.errors?.[0]?.description || 
+                           data?.error || 
+                           'Erro ao gerar link de pagamento no Asaas';
+        throw new Error(asaasError);
+      }
+
+      const paymentUrl = data.data?.url || data.data?.invoiceUrl;
+      if (!paymentUrl) {
+        throw new Error('URL de pagamento não encontrada na resposta');
+      }
+
+      return paymentUrl; 
+    } catch (error) {
+      console.error('Error in getPaymentLink:', error);
+      throw error;
+    }
   }
 };
