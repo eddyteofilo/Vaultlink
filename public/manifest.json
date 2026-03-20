@@ -1,0 +1,17 @@
+{
+  "name": "VaultLink",
+  "short_name": "VaultLink",
+  "description": "Gerenciador inteligente de acessos digitais",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "background_color": "#0A0A0F",
+  "theme_color": "#6366F1",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64",
+      "type": "image/x-icon"
+    }
+  ]
+}
