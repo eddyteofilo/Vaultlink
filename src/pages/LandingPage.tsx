@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Shield, Zap, Lock, FolderOpen, Copy, ExternalLink, ArrowRight, Check, Key, Hash, Code, Smartphone } from 'lucide-react';
@@ -40,6 +41,15 @@ const limits = [
 ];
 
 const LandingPage = () => {
+  useEffect(() => {
+    // Google Ads conversion tracking for Landing Page
+    if (window.gtag) {
+      window.gtag('event', 'conversion', {
+        'send_to': 'AW-18030422555/RPEwCK_Q0YwcEJvUyZVD'
+      });
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-background noise-bg">
       {/* Nav */}

@@ -32,6 +32,13 @@ const ObrigadoPage = () => {
       });
       console.log('Conversion tracked for Google Ads:', adsId, adsLabel);
     }
+
+    // Always track page view conversion for this specific ID if gtag is present
+    if (window.gtag) {
+      window.gtag('event', 'conversion', {
+        'send_to': 'AW-18030422555/RPEwCK_Q0YwcEJvUyZVD'
+      });
+    }
   }, []);
 
   return (
